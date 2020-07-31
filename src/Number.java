@@ -20,12 +20,13 @@ public class Number {
         System.out.println("makeAny" + num );
         return num;
     }
-    String makeDigit(int digit){
+    int makeDigit(int digit){
         if( digit == 1)
-            return Integer.toString(makeNoneZero());
+            return makeNoneZero();
         else if( digit == 2)
-            return makeNoneZero()+" "+makeAny();
+            return makeNoneZero()*10 + makeAny();
         else
-            return makeNoneZero()+" "+makeAny()+" "+makeAny();
+            return makeNoneZero()*100 + makeAny()*10 + makeAny();
     }
+
 }

@@ -14,8 +14,8 @@ public class Main extends JFrame implements ActionListener{
     private JLabel text2 = new JLabel("DIGIT");
     private JLabel text3 = new JLabel("PAGE");
     private ButtonGroup operator = new ButtonGroup();
-    private JComboBox opnd1 = new JComboBox(new String[]{"1", "2"});
-    private  JComboBox opnd2 = new JComboBox(new String[]{"1", "2"});
+    private JComboBox opnd1 = new JComboBox(new String[]{"1", "2","3"});
+    private  JComboBox opnd2 = new JComboBox(new String[]{"1", "2","3"});
     private  JComboBox page = new JComboBox(new String[]{"1", "2", "3","4","5","6","7","8","9","10"});
 
 

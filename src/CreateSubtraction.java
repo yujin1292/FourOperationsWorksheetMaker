@@ -15,7 +15,7 @@ class CreateSubtraction extends Create {
     @Override
     public boolean makePDFPage()throws Exception {
 
-        String filename = "minus"+ System.currentTimeMillis()/1000+".pdf";
+        String filename = "subtraction"+ System.currentTimeMillis()%10000+".pdf";
         Number number = new Number();
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(filename));
@@ -42,162 +42,151 @@ class CreateSubtraction extends Create {
 
 
 
+
             for(int row = 0 ; row < 4 ; row ++){
 
                 // 표 생성
-                PdfPTable table = new PdfPTable(new float[]{1f, 1f, 1f, 1f, 1f, 1f, 1f});
+                PdfPTable table = new PdfPTable(new float[]{1f, 1f, 1f, 1f, 1f, 1f, 1f ,1f,  1f});
 
                 PdfPCell c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 c1.setBorder(Rectangle.NO_BORDER);
                 table.addCell(c1);
 
+                //수 생성
+                int q1left, q1right, q2left, q2right;
+                q1left = number.makeDigit(first);
+                q2left = number.makeDigit(first);
+                q1right = number.makeDigit(second);
+                q2right = number.makeDigit(second);
 
-                // 첫번째 자리수
-                if (first == 1) {
-
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-
+                if( q1left < q1right){
+                    int temp = q1right;
+                    q1right = q1left;
+                    q1left = temp;
                 }
-                else if (first == 2) {
-
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeAny()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeAny()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-
+                if( q2left < q2right){
+                    int temp = q2right;
+                    q2right = q2left;
+                    q2left = temp;
                 }
 
+
+                // 표 그리기 시작
+                // 문제 1 생성
+                int d = 100;
+                for(int dd= 0 ; dd< 3 ; dd++){
+
+                    if( 3-dd <= first ){ //숫자 출력
+                        c1 = new PdfPCell(new Phrase(Integer.toString(q1left/d), new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                        q1left %= d;
+                    }
+                    else{ // 공백 출력
+                        c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                    }
+                    d/=10;
+                }
+
+                c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                c1.setBorder(Rectangle.NO_BORDER);
+                table.addCell(c1);
+
+                // 문제 2 생성
+                c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                c1.setBorder(Rectangle.NO_BORDER);
+                table.addCell(c1);
+
+                d = 100;
+                for(int dd= 0 ; dd< 3 ; dd++){
+
+                    if( 3-dd <= first ){
+                        c1 = new PdfPCell(new Phrase(Integer.toString(q2left/d), new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                        q2left %= d;
+                    }
+                    else{
+                        c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                    }
+                    d/=10;
+                }
 
                 table.setHeaderRows(1);
 
+                // 다음줄
 
-                // 두번째 자리수
-                if (second == 1) {
+                c1 = new PdfPCell(new Paragraph(op, new Font(objBaseFont, size)));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                c1.setBorder(Rectangle.NO_BORDER);
+                table.addCell(c1);
 
-                    c1 = new PdfPCell(new Paragraph(op, new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
+                d = 100;
+                for(int dd= 0 ; dd< 3 ; dd++){
 
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Paragraph(op, new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-                }
-                else if (second == 2) {
-
-                    c1 = new PdfPCell(new Phrase(op, new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeAny()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-
-                    c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
-                    c1 = new PdfPCell(new Phrase(op, new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeNoneZero()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-                    c1 = new PdfPCell(new Phrase(Integer.toString(number.makeAny()), new Font(objBaseFont, size)));
-                    c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    c1.setBorder(Rectangle.NO_BORDER);
-                    table.addCell(c1);
-
+                    if( 3-dd <= second ){
+                        c1 = new PdfPCell(new Phrase(Integer.toString(q1right/d), new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                        q1right %= d;
+                    }
+                    else{
+                        c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                    }
+                    d/=10;
                 }
 
-                for( int t = 0 ; t < 7 ; t++){
+
+                c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                c1.setBorder(Rectangle.NO_BORDER);
+                table.addCell(c1);
+
+                c1 = new PdfPCell(new Paragraph(op, new Font(objBaseFont, size)));
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                c1.setBorder(Rectangle.NO_BORDER);
+                table.addCell(c1);
+
+                d = 100;
+                for(int dd= 0 ; dd< 3 ; dd++){
+
+                    if( 3-dd <= second){
+                        c1 = new PdfPCell(new Phrase(Integer.toString(q2right/d), new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                        q2right %= d;
+                    }
+                    else{
+                        c1 = new PdfPCell(new Paragraph("", new Font(objBaseFont, size)));
+                        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        c1.setBorder(Rectangle.NO_BORDER);
+                        table.addCell(c1);
+                    }
+                    d/=10;
+                }
+
+
+                for( int t = 0 ; t < 9 ; t++){
                     c1 = new PdfPCell(new Phrase(" ", new Font(objBaseFont, size)));
                     c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                     c1.setBorder(Rectangle.TOP);
-                    if( t == 3)
+                    if( t == 4)
                         c1.setBorder(Rectangle.NO_BORDER);
                     table.addCell(c1);
                 }
@@ -209,7 +198,6 @@ class CreateSubtraction extends Create {
                 preface.add(blank);
                 preface.add(blank);
                 preface.add(blank);
-
             }
 
             // preface에 추가합니다.
