@@ -1,5 +1,5 @@
 # FourOperationsWorksheetMaker
-- strategy Pattern
+- strategy Pattern 이용
 - iText를 이용한 사칙연산 연습지 제작 프로그램.
 - 페이지수와 사칙연산 자릿수를 선택하면 PDF 파일 생성된다.
 
